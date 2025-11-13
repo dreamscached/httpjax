@@ -1,0 +1,21 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "httpjax",
+	"compatibility_date": "2025-11-09",
+	"r2_buckets": [
+		{
+			"binding": "R2_BUCKET",
+			"bucket_name": "httpjax"
+		}
+	],
+	"vars": {
+		"R2_PUBLIC_URL": "https://pub-bfd2dad23b404af4ab2dd80d5cb8ec00.r2.dev"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"main": "src/main.ts",
+	"build": {
+		"command": "yarn build"
+	}
+}
