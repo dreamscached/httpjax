@@ -1,0 +1,71 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "httpjax",
+    "version": "1.0.0",
+    "description": "Free public 'MathJax-over-HTTP' REST API"
+  },
+  "servers": [
+    {
+      "url": "https://httpjax.dcache.workers.dev"
+    }
+  ],
+  "paths": {
+    "/render/svg": {
+      "post": {
+        "summary": "Render TeX source code as SVG vector image",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CommonRenderRequestSchema"
+        },
+        "responses": {
+          "302": {
+            "$ref": "#/components/responses/RenderRedirectSchema"
+          }
+        }
+      }
+    },
+    "/render/png": {
+      "post": {
+        "summary": "Render TeX source code as PNG raster image",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CommonRenderRequestSchema"
+        },
+        "responses": {
+          "302": {
+            "$ref": "#/components/responses/RenderRedirectSchema"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "CommonRenderRequestSchema": {
+        "required": true,
+        "description": "Plain TeX source code sent as text/plain",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type": "string",
+              "description": "TeX source code",
+              "example": "x^2+x+4=0"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "RenderRedirectSchema": {
+        "description": "Redirect to URL with the rendered image",
+        "headers": {
+          "Location": {
+            "description": "URL of the rendered image",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
