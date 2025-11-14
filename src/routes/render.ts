@@ -4,6 +4,7 @@ import { Hono, type MiddlewareHandler } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import objectHash from "object-hash";
 
+import { MAX_TEX_BODY_SIZE } from "../config.js";
 import { type Env } from "../env.js";
 import { tex2svg } from "../math/mathjax.js";
 
@@ -48,15 +49,25 @@ function storeOutput(options: StoreOutputOptions): MiddlewareHandler<Env> {
 	};
 }
 
-app.post("/svg", bodyLimit({ maxSize: 1024 }), storeOutput({ extension: "svg" }), async (ctx) => {
-	const tex = await ctx.req.raw.text();
-	const svg = await tex2svg(tex);
-	return ctx.body(svg, 200, { "Content-Type": "image/svg+xml" });
-});
+app.post(
+	"/svg",
+	bodyLimit({ maxSize: MAX_TEX_BODY_SIZE }),
+	storeOutput({ extension: "svg" }),
+	async (ctx) => {
+		const tex = await ctx.req.raw.text();
+		const svg = await tex2svg(tex);
+		return ctx.body(svg, 200, { "Content-Type": "image/svg+xml" });
+	}
+);
 
-app.post("/png", bodyLimit({ maxSize: 1024 }), storeOutput({ extension: "png" }), async (ctx) => {
-	const tex = await ctx.req.raw.text();
-	const svg = await tex2svg(tex);
-	const png = Buffer.from(new Resvg(svg).render().asPng());
-	return ctx.body(png, 200, { "Content-Type": "image/png" });
-});
+app.post(
+	"/png",
+	bodyLimit({ maxSize: MAX_TEX_BODY_SIZE }),
+	storeOutput({ extension: "png" }),
+	async (ctx) => {
+		const tex = await ctx.req.raw.text();
+		const svg = await tex2svg(tex);
+		const png = Buffer.from(new Resvg(svg).render().asPng());
+		return ctx.body(png, 200, { "Content-Type": "image/png" });
+	}
+);
