@@ -9,9 +9,16 @@ const app = new Hono<Env>();
 export default app;
 
 interface StoreOutputOptions {
+	/** File extension (without a leading dot) to add after the cache key. */
 	extension: string;
 }
 
+/**
+ * Creates a middleware handler that first checks if an object already exists
+ * for the POST body.
+ * @param options options to pass to the created middleware handler
+ * @returns middleware handler
+ */
 function storeOutput(options: StoreOutputOptions): MiddlewareHandler<Env> {
 	return async (ctx, next) => {
 		const req = ctx.req.raw.clone();
@@ -42,7 +49,5 @@ function storeOutput(options: StoreOutputOptions): MiddlewareHandler<Env> {
 app.post("/svg", bodyLimit({ maxSize: 1024 }), storeOutput({ extension: "svg" }), async (ctx) => {
 	const tex = await ctx.req.raw.text();
 	const svg = await tex2svg(tex);
-	return ctx.body(svg, 200, {
-		"Content-Type": "image/svg+xml"
-	});
+	return ctx.body(svg, 200, { "Content-Type": "image/svg+xml" });
 });
