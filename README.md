@@ -17,6 +17,13 @@ You can find up-to-date REST API docs (and a convenient Swagger UI)
 OpenAPI JSON schema can be found [here (this repo)](openapi.json) or
 [here (hosted)](https://httpjax.dcache.workers.dev/docs/openapi.json).
 
+## Host your own
+
+You can easily self-host this on your own Cloudflare account, with your own
+Worker and with your own R2 bucket &mdash; in just a click of a button:
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/dreamscached/httpjax)
+
 ## You may be wondering...
 
 ### Why?
