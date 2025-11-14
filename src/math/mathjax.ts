@@ -1,3 +1,4 @@
+import "@mathjax/src/components/js/input/tex/extensions/color/color.js";
 import { liteAdaptor } from "@mathjax/src/js/adaptors/liteAdaptor.js";
 import { RegisterHTMLHandler } from "@mathjax/src/js/handlers/html.js";
 import { TeX } from "@mathjax/src/js/input/tex.js";
@@ -7,7 +8,7 @@ import { SVG } from "@mathjax/src/js/output/svg.js";
 const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
 
-const tex = new TeX();
+const tex = new TeX({ packages: ["base", "color"] });
 const svg = new SVG({ fontCache: "none" });
 
 /**

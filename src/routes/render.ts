@@ -1,3 +1,5 @@
+import { Resvg } from "@cf-wasm/resvg/workerd";
+import { Buffer } from "buffer";
 import { Hono, type MiddlewareHandler } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import objectHash from "object-hash";
@@ -50,4 +52,11 @@ app.post("/svg", bodyLimit({ maxSize: 1024 }), storeOutput({ extension: "svg" })
 	const tex = await ctx.req.raw.text();
 	const svg = await tex2svg(tex);
 	return ctx.body(svg, 200, { "Content-Type": "image/svg+xml" });
+});
+
+app.post("/png", bodyLimit({ maxSize: 1024 }), storeOutput({ extension: "png" }), async (ctx) => {
+	const tex = await ctx.req.raw.text();
+	const svg = await tex2svg(tex);
+	const png = Buffer.from(new Resvg(svg).render().asPng());
+	return ctx.body(png, 200, { "Content-Type": "image/png" });
 });
