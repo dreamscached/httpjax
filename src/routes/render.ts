@@ -4,9 +4,9 @@ import { Hono, type MiddlewareHandler } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import objectHash from "object-hash";
 
-import { MAX_TEX_BODY_SIZE } from "../config.js";
-import { type Env } from "../env.js";
-import { tex2svg } from "../math/mathjax.js";
+import { tex2svg } from "$math/mathjax.js";
+import { MAX_TEX_BODY_SIZE } from "$src/config.js";
+import { type Env } from "$src/env.js";
 
 const app = new Hono<Env>();
 export default app;
